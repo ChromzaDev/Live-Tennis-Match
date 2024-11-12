@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matchs Passés - Suivi des Matchs de Tennis</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script defer src="admin.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="logo">
+            <img src="images/logo.png" alt="Logo du Club de Tennis" class="logo-image">
+        </div>
+        
+        <h1 class="site-title">Matchs Passés - Suivi des Matchs de Tennis</h1>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="matchs-en-direct.html">Matchs en Direct</a></li>
+                <li><a href="matchs-passes.html">Matchs Passés</a></li>
+                <li><a href="matchs-a-venir.html">Matchs à Venir</a></li>
+                <li><a href="classement.html">Classement</a></li>
+                <li><a href="admin.html">Admin</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="content">
+        <section id="matchs-passes" class="past-matches">
+            <h2>Matchs Passés</h2>
+            <p>Consultez les matchs passés, revoyez les moments forts, et gérez les rencontres.</p>
+            <div class="matches-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom du Match</th>
+                            <th>Date</th>
+                            <th>Score</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="past-matches-table">
+                        <!-- Les matchs passés seront ajoutés ici dynamiquement -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="admin-controls" class="admin-controls">
+                <h3>Gestion des Matchs Passés</h3>
+                <form id="add-past-match-form">
+                    <label for="match-name">Nom du Match :</label>
+                    <input type="text" id="match-name" name="match-name" required>
+
+                    <label for="match-date">Date du Match :</label>
+                    <input type="datetime-local" id="match-date" name="match-date" required>
+
+                    <label for="match-score">Score :</label>
+                    <input type="text" id="match-score" name="match-score" required>
+
+                    <button type="button" onclick="addPastMatch()">Ajouter un Match Passé</button>
+                </form>
+                <div id="admin-message"></div>
+            </div>
+        </section>
+    </main>
+    <footer id="contact" class="site-footer">
+        <p>Contactez-nous : <a href="mailto:monemail@example.com">monemail@example.com</a></p>
+    </footer>
+    <script>
+        // Fonction pour ajouter un match passé 
+        function addPastMatch() {
+            const matchName = document.getElementById("match-name").value;
+            const matchDate = document.getElementById("match-date").value;
+            const matchScore = document.getElementById("match-score").value;
+            const adminMessage = document.getElementById("admin-message");
+            const tableBody = document.getElementById("past-matches-table");
+
+            if (matchName && matchDate && matchScore) {
+                const newRow = document.createElement("tr");
+                newRow.innerHTML = `
+                    <td>${matchName}</td>
+                    <td>${matchDate}</td>
+                    <td>${matchScore}</td>
+                    <td><button onclick="deleteMatch(this)">Supprimer</button></td>
+                `;
+                tableBody.appendChild(newRow);
+                adminMessage.textContent = `Le match "${matchName}" a été ajouté avec succès.`;
+                adminMessage.style.color = "green";
+            } else {
+                adminMessage.textContent = "Veuillez remplir tous les champs.";
+                adminMessage.style.color = "red";
+            }
+        }
+
+        // Fonction pour supprimer un match passé
+        function deleteMatch(button) {
+            const row = button.parentElement.parentElement;
+            row.remove();
+        }
+    </script>
+</body>
+</html>

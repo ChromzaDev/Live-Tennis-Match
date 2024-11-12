@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matchs en Direct - Suivi des Matchs de Tennis</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script defer src="admin_script.js"></script> <!-- Assurez-vous que ce script soit le même que celui utilisé dans l'interface admin -->
+</head>
+<body>
+    <header class="site-header">
+        <div class="logo" style="position: absolute; top: 20px; left: 20px;">
+            <img src="images/logo.png" alt="Logo du Club de Tennis" class="logo-image">
+        </div>
+        <h1 class="site-title">Matchs en Direct - Suivi des Matchs de Tennis</h1>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="matchs-en-direct.html">Matchs en Direct</a></li>
+                <li><a href="matchs-passes.html">Matchs Passés</a></li>
+                <li><a href="matchs-a-venir.html">Matchs à Venir</a></li>
+                <li><a href="classement.html">Classement</a></li>
+                <li><a href="admin.html">Admin</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="content">
+        <section id="live-matches" class="live-matches-section">
+            <h2>Matchs en Direct</h2>
+            <p>Suivez les matchs de tennis en direct avec des mises à jour en temps réel sur les scores et les événements.</p>
+            <div class="match-list" id="live-match-list">
+                <!-- Les matchs lancés par l'admin seront affichés ici dynamiquement -->
+            </div>
+        </section>
+    </main>
+    <footer class="site-footer">
+        <p>Suivez-nous sur les réseaux sociaux :</p>
+        <ul class="social-links">
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">Instagram</a></li>
+        </ul>
+    </footer>
+    <style>
+        /* Styles pour la section des matchs en direct */
+        .live-matches-section {
+            padding: 40px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .match-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .match-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .match-info h3 {
+            color: #1e90ff;
+            margin-bottom: 10px;
+        }
+        .live-button {
+            background-color: #ff6347;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .live-button:hover {
+            background-color: #e5533d;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Charger les matchs en direct à partir de localStorage
+            const liveMatches = JSON.parse(localStorage.getItem('liveMatches')) || [];
+
+            const matchList = document.getElementById('live-match-list');
+
+            liveMatches.forEach(match => {
+                // Créer un élément pour chaque match
+                const matchCard = document.createElement('div');
+                matchCard.classList.add('match-card');
+                matchCard.innerHTML = `
+                    <div class="match-info">
+                        <h3>${match.players}</h3>
+                        <p id="${match.id}-score">Score: ${match.score}</p>
+                    </div>
+                    <div class="match-timer">
+                        <p>Temps écoulé: <span id="${match.timerId}">00:00:00</span></p>
+                    </div>
+                `;
+
+                matchList.appendChild(matchCard);
+
+                // Récupérer le temps écoulé du match depuis localStorage
+                let elapsedTime = match.elapsedTime;
+
+                // Mettre à jour le timer pour chaque match
+                setInterval(() => {
+                    elapsedTime++;
+                    match.elapsedTime = elapsedTime;
+                    const hours = String(Math.floor(elapsedTime / 3600)).padStart(2, '0');
+                    const minutes = String(Math.floor((elapsedTime % 3600) / 60)).padStart(2, '0');
+                    const seconds = String(elapsedTime % 60).padStart(2, '0');
+                    document.getElementById(match.timerId).textContent = `${hours}:${minutes}:${seconds}`;
+                    localStorage.setItem('liveMatches', JSON.stringify(liveMatches));
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>

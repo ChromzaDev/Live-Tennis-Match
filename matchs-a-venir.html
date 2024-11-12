@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matchs à Venir - Suivi des Matchs de Tennis</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script defer src="admin.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="logo">
+            <img src="images/logo.png" alt="Logo du Club de Tennis" class="logo-image">
+        </div>
+        
+        <h1 class="site-title">Matchs à Venir - Suivi des Matchs de Tennis</h1>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="matchs-en-direct.html">Matchs en Direct</a></li>
+                <li><a href="matchs-passes.html">Matchs Passés</a></li>
+                <li><a href="matchs-a-venir.html">Matchs à Venir</a></li>
+                <li><a href="classement.html">Classement</a></li>
+                <li><a href="admin.html">Admin</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="content">
+        <section id="matchs-a-venir" class="upcoming-matches">
+            <h2>Matchs à Venir</h2>
+            <p>Consultez les prochains matchs programmés et préparez-vous pour les soutenir.</p>
+            <div class="matches-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom du Match</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="upcoming-matches-table">
+                        <!-- Les matchs à venir seront ajoutés ici dynamiquement -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="admin-controls" class="admin-controls">
+                <h3>Gestion des Matchs à Venir</h3>
+                <form id="add-upcoming-match-form">
+                    <label for="upcoming-match-name">Nom du Match :</label>
+                    <input type="text" id="upcoming-match-name" name="upcoming-match-name" required>
+
+                    <label for="upcoming-match-date">Date du Match :</label>
+                    <input type="datetime-local" id="upcoming-match-date" name="upcoming-match-date" required>
+
+                    <button type="button" onclick="addUpcomingMatch()">Ajouter un Match à Venir</button>
+                </form>
+                <div id="admin-message"></div>
+            </div>
+        </section>
+    </main>
+    <footer id="contact" class="site-footer">
+        <p>Contactez-nous : <a href="mailto:monemail@example.com">monemail@example.com</a></p>
+    </footer>
+    <script>
+        // Fonction pour ajouter un match à venir 
+        function addUpcomingMatch() {
+            const matchName = document.getElementById("upcoming-match-name").value;
+            const matchDate = document.getElementById("upcoming-match-date").value;
+            const adminMessage = document.getElementById("admin-message");
+            const tableBody = document.getElementById("upcoming-matches-table");
+
+            if (matchName && matchDate) {
+                const newRow = document.createElement("tr");
+                newRow.innerHTML = `
+                    <td>${matchName}</td>
+                    <td>${matchDate}</td>
+                    <td><button onclick="deleteUpcomingMatch(this)">Supprimer</button></td>
+                `;
+                tableBody.appendChild(newRow);
+                adminMessage.textContent = `Le match "${matchName}" a été ajouté avec succès.`;
+                adminMessage.style.color = "green";
+            } else {
+                adminMessage.textContent = "Veuillez remplir tous les champs.";
+                adminMessage.style.color = "red";
+            }
+        }
+
+        // Fonction pour supprimer un match à venir
+        function deleteUpcomingMatch(button) {
+            const row = button.parentElement.parentElement;
+            row.remove();
+        }
+    </script>
+</body>
+</html>

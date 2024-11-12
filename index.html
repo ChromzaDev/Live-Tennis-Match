@@ -3,44 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suivi de Matchs de Tennis</title>
+    <title>Accueil - Suivi des Matchs de Tennis</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script defer src="scripts.js"></script>
 </head>
 <body>
     <header class="site-header">
+        <div class="logo" style="position: absolute; top: 20px; left: 20px;">
+            <img src="images/logo.png" alt="Logo du Club de Tennis" class="logo-image">
+        </div>
         <h1 class="site-title">Suivi des Matchs de Tennis</h1>
         <nav class="main-nav">
             <ul>
-                <li><a href="#">Accueil</a></li>
-                <li><a href="#matchs-en-direct">Matchs en Direct</a></li>
-                <li><a href="#matchs-passes">Matchs Passés</a></li>
-                <li><a href="#matchs-a-venir">Matchs à Venir</a></li>
-                <li><a href="#classement">Classement</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="matchs-en-direct.html">Matchs en Direct</a></li>
+                <li><a href="matchs-passes.html">Matchs Passés</a></li>
+                <li><a href="matchs-a-venir.html">Matchs à Venir</a></li>
+                <li><a href="classement.html">Classement</a></li>
+                <li><a href="admin.html">Admin</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
     </header>
     <main class="content">
-        <section id="matchs-en-direct" class="live-matches">
-            <h2>Matchs en Direct</h2>
-            <p>Ici, vous pourrez suivre les matchs en cours mis à jour en temps réel par les administrateurs.</p>
+        <section id="hero" class="hero-section">
+            <div class="hero-text">
+                <h2>Vivez l'Action du Tennis en Direct !</h2>
+                <p>Suivez les matchs de tennis en direct, consultez les classements, et revivez les meilleurs moments. Que vous soyez un fan inconditionnel ou un joueur passionné, notre plateforme vous offre tout ce qu'il vous faut.</p>
+                <a href="matchs-en-direct.html" class="cta-button">Regarder les Matchs en Direct</a>
+            </div>
         </section>
-        <section id="matchs-passes" class="past-matches">
-            <h2>Matchs Passés</h2>
-            <p>Consultez les résultats des matchs passés et revivez les moments forts.</p>
-        </section>
-        <section id="matchs-a-venir" class="upcoming-matches">
-            <h2>Matchs à Venir</h2>
-            <p>Découvrez les prochains matchs programmés et préparez-vous pour les soutenir.</p>
-        </section>
-        <section id="classement" class="ranking">
-            <h2>Classement des Joueurs</h2>
-            <p>Consultez le classement actuel des joueurs de notre club basé sur leurs performances récentes.</p>
+        <section id="features" class="features-section">
+            <div class="feature">
+                <img src="images/live.png" alt="Matchs en Direct" class="feature-image">
+                <h3>Matchs en Direct</h3>
+                <p>Ne manquez rien de l'action avec notre couverture en direct des matchs du club.</p>
+            </div>
+            <div class="feature">
+                <img src="images/history.png" alt="Historique des Matchs" class="feature-image">
+                <h3>Historique des Matchs</h3>
+                <p>Consultez les résultats passés et analysez les performances de vos joueurs préférés.</p>
+            </div>
+            <div class="feature">
+                <img src="images/ranking.png" alt="Classement des Joueurs" class="feature-image">
+                <h3>Classement des Joueurs</h3>
+                <p>Suivez le classement des joueurs de votre club et des meilleurs joueurs ATP.</p>
+            </div>
         </section>
     </main>
-    <footer id="contact" class="site-footer">
-        <p>Contactez-nous : <a href="mateoberteau300704@gmail.com">mateoberteau300704@gmail.com"</a></p>
+    <footer class="site-footer">
+        <p>Suivez-nous sur les réseaux sociaux :</p>
+        <ul class="social-links">
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">Instagram</a></li>
+        </ul>
     </footer>
+    <style>
+        /* Styles pour la section Héro */
+        .hero-section {
+            background: url('images/tennis-bg.jpg') no-repeat center center/cover;
+            color: #fff;
+            text-align: center;
+            padding: 100px 20px;
+            position: relative;
+        }
+        .hero-text {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .cta-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 15px 30px;
+            background-color: #ff6347;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .cta-button:hover {
+            background-color: #e5533d;
+        }
+        
+        /* Styles pour la section des Fonctionnalités */
+        .features-section {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 60px 20px;
+            flex-wrap: wrap;
+        }
+        .feature {
+            text-align: center;
+            max-width: 300px;
+            margin: 20px;
+        }
+        .feature-image {
+            width: 100px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .feature h3 {
+            color: #1e90ff;
+            margin-bottom: 10px;
+        }
+    </style>
 </body>
 </html>

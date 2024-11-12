@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matchs en Direct - Suivi des Matchs de Tennis</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script defer src="scripts.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="logo" style="position: absolute; top: 20px; left: 20px;">
+            <img src="images/logo.png" alt="Logo du Club de Tennis" class="logo-image">
+        </div>
+        <h1 class="site-title">Matchs en Direct - Suivi des Matchs de Tennis</h1>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="matchs-en-direct.html">Matchs en Direct</a></li>
+                <li><a href="matchs-passes.html">Matchs Passés</a></li>
+                <li><a href="matchs-a-venir.html">Matchs à Venir</a></li>
+                <li><a href="classement.html">Classement</a></li>
+                <li><a href="admin.html">Admin</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="content">
+        <section id="live-matches" class="live-matches-section">
+            <h2>Matchs en Direct</h2>
+            <p>Suivez les matchs de tennis en direct avec des mises à jour en temps réel sur les scores et les événements.</p>
+            <div class="match-list" id="live-match-list">
+                <!-- Les matchs lancés par l'admin seront affichés ici dynamiquement -->
+            </div>
+        </section>
+        <section id="admin-interface" class="admin-interface-section">
+            <h2>Interface Admin - Créer et Gérer les Matchs</h2>
+            <form id="create-match-form">
+                <label for="player1-name">Joueur 1 :</label>
+                <input type="text" id="player1-name" name="player1-name" required>
+
+                <label for="player2-name">Joueur 2 :</label>
+                <input type="text" id="player2-name" name="player2-name" required>
+
+                <label for="match-date">Date et Heure du Match :</label>
+                <input type="datetime-local" id="match-date" name="match-date" required>
+
+                <button type="button" onclick="createMatch()">Créer un Nouveau Match</button>
+            </form>
+            <div id="admin-message"></div>
+            <h3>Matchs Programmés</h3>
+            <div class="match-list" id="admin-match-list">
+                <!-- Liste des matchs programmés pour l'admin -->
+            </div>
+        </section>
+    </main>
+    <footer class="site-footer">
+        <p>Suivez-nous sur les réseaux sociaux :</p>
+        <ul class="social-links">
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">Instagram</a></li>
+        </ul>
+    </footer>
+    <style>
+        /* Styles pour la section des matchs en direct */
+        .live-matches-section {
+            padding: 40px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .match-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .match-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .match-info h3 {
+            color: #1e90ff;
+            margin-bottom: 10px;
+        }
+        .live-button {
+            background-color: #ff6347;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .live-button:hover {
+            background-color: #e5533d;
+        }
+        /* Styles pour l'interface admin */
+        .admin-interface-section {
+            padding: 40px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        #create-match-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        #create-match-form label {
+            font-weight: bold;
+        }
+        #create-match-form input {
+            padding: 10px;
+            border: 2px solid #1e90ff;
+            border-radius: 5px;
+        }
+        #create-match-form button {
+            padding: 15px;
+            background: #1e90ff;
+            color: #fff;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #create-match-form button:hover {
+            background: #ff6347;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let liveMatches = JSON.parse(localStorage.getItem('liveMatches')) || []; // Récupérer les matchs enregistrés
+
+            const matchList = document.getElementById('live-match-list');
+            const adminMatchList = document.getElementById('admin-match-list');
+
+            // Afficher les matchs déjà présents dans le localStorage
+            liveMatches.forEach(displayMatch);
+            liveMatches.forEach(displayAdminMatch);
+
+            // Fonction pour créer un nouveau match via l'interface admin
+            window.createMatch = function() {
+                const player1 = document.getElementById('player1-name').value;
+                const player2 = document.getElementById('player2-name').value;
+                const matchDate = document.getElementById('match-date').value;
+                const adminMessage = document.getElementById('admin-message');
+
+                if (player1 && player2 && matchDate) {
+                    const newMatch = {
+                        id: `match${liveMatches.length + 1}`,
+                        players: `${player1} vs ${player2}`,
+                        score: '0 - 0',
+                        timerId: `timer${liveMatches.length + 1}`,
+                        elapsedTime: 0
+                    };
+
+                    liveMatches.push(newMatch);
+                    localStorage.setItem('liveMatches', JSON.stringify(liveMatches)); // Enregistrer les matchs dans le localStorage
+                    displayMatch(newMatch);
+                    displayAdminMatch(newMatch);
+                    adminMessage.textContent = `Le match entre ${player1} et ${player2} a été programmé pour le ${matchDate}.`;
+                    adminMessage.style.color = "green";
+                } else {
+                    adminMessage.textContent = "Veuillez remplir tous les champs.";
+                    adminMessage.style.color = "red";
+                }
+            };
+
+            function displayMatch(match) {
+                const matchCard = document.createElement('div');
+                matchCard.classList.add('match-card');
+                matchCard.innerHTML = `
+                    <div class="match-info">
+                        <h3>${match.players}</h3>
+                        <p id="${match.id}-score">Score: ${match.score}</p>
+                    </div>
+                    <div class="match-timer">
+                        <p>Temps écoulé: <span id="${match.timerId}">00:00:00</span></p>
+                    </div>
+                `;
+                matchList.appendChild(matchCard);
+
+                // Démarrer le timer pour le match créé
+                let elapsedTime = match.elapsedTime;
+                setInterval(() => {
+                    elapsedTime++;
+                    match.elapsedTime = elapsedTime;
+                    const hours = String(Math.floor(elapsedTime / 3600)).padStart(2, '0');
+                    const minutes = String(Math.floor((elapsedTime % 3600) / 60)).padStart(2, '0');
+                    const seconds = String(elapsedTime % 60).padStart(2, '0');
+                    document.getElementById(match.timerId).textContent = `${hours}:${minutes}:${seconds}`;
+                    localStorage.setItem('liveMatches', JSON.stringify(liveMatches)); // Mettre à jour le localStorage avec le temps écoulé
+                }, 1000);
+            }
+
+            function displayAdminMatch(match) {
+                const matchCard = document.createElement('div');
+                matchCard.classList.add('match-card');
+                matchCard.innerHTML = `
+                    <div class="match-info">
+                        <h3>${match.players}</h3>
+                        <p id="${match.id}-score">Score: ${match.score}</p>
+                    </div>
+                    <div class="score-update">
+                        <button onclick="updateScore('${match.id}', 1)">+1 Joueur 1</button>
+                        <button onclick="updateScore('${match.id}', 2)">+1 Joueur 2</button>
+                        <button onclick="deleteMatch('${match.id}')">Supprimer le Match</button>
+                    </div>
+                `;
+                adminMatchList.appendChild(matchCard);
+            }
+
+            // Fonction pour mettre à jour le score des joueurs
+            window.updateScore = function(matchId, player) {
+                const match = liveMatches.find(m => m.id === matchId);
+                if (match) {
+                    let scores = match.score.split(' - ').map(Number);
+                    if (player === 1) {
+                        scores[0] += 1;
+                    } else if (player === 2) {
+                        scores[1] += 1;
+                    }
+                    match.score = `${scores[0]} - ${scores[1]}`;
+                    document.getElementById(`${matchId}-score`).textContent = `Score: ${match.score}`;
+                    localStorage.setItem('liveMatches', JSON.stringify(liveMatches)); // Mettre à jour le localStorage avec le nouveau score
+                }
+            }
+
+            // Fonction pour supprimer un match
+            window.deleteMatch = function(matchId) {
+                liveMatches = liveMatches.filter(m => m.id !== matchId);
+                localStorage.setItem('liveMatches', JSON.stringify(liveMatches));
+                document.getElementById('live-match-list').innerHTML = '';
+                document.getElementById('admin-match-list').innerHTML = '';
+                liveMatches.forEach(displayMatch);
+                liveMatches.forEach(displayAdminMatch);
+            }
+        });
+    </script>
+</body>
+</html>

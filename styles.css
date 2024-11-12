@@ -1,31 +1,180 @@
+/* Styles de base */
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    line-height: 1.6;
 }
 
-header {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 0;
+/* Styles pour le Header */
+.site-header {
+    background: #1e90ff; /* Bleu vif */
+    padding: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
+    position: relative; /* Pour positionner le logo */
 }
 
-nav ul {
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.logo-image {
+    max-width: 100px;
+    height: auto;
+}
+
+.site-title {
+    color: #fff;
+    margin: 0;
+    font-size: 2.5em;
+}
+
+/* Styles pour la Navigation */
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 0 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.main-nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    transition: background-color 0.3s, border-radius 0.3s;
+    border-radius: 20px;
+}
+
+.main-nav ul li a:hover {
+    background-color: #fff;
+    color: #1e90ff;
+    border-radius: 50px;
+}
+
+/* Styles pour le Main Content */
+.content {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 40px;
+}
+
+h2 {
+    color: #1e90ff;
+    margin-bottom: 20px;
+}
+
+/* Formulaire de Contact */
+#contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#contact-form label {
+    font-weight: bold;
+}
+
+#contact-form input,
+#contact-form textarea {
+    padding: 10px;
+    border: 2px solid #1e90ff;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#contact-form input:focus,
+#contact-form textarea:focus {
+    border-color: #ff6347; /* Orange vif lors du focus */
+}
+
+#contact-form button {
+    padding: 15px;
+    background: #1e90ff;
+    color: #fff;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#contact-form button:hover {
+    background: #ff6347;
+}
+
+/* Informations de Contact */
+#contact-details {
+    margin-top: 30px;
+    background: #e6f7ff;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#contact-details p {
+    margin: 10px 0;
+}
+
+/* Footer */
+.site-footer {
+    text-align: center;
+    padding: 30px 0;
+    background: #1e90ff;
+    color: #fff;
+    margin-top: 50px;
+}
+
+.social-links {
     list-style: none;
     padding: 0;
     display: flex;
     justify-content: center;
+    gap: 15px;
+    margin: 20px 0 0 0;
 }
 
-nav ul li {
-    margin: 0 15px;
-}
-
-nav ul li a {
+.social-links li a {
     color: #fff;
     text-decoration: none;
-    font-weight: bold;
+    font-size: 1.5em;
+    transition: transform 0.3s;
+}
+
+.social-links li a:hover {
+    transform: scale(1.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .content {
+        margin: 20px;
+        padding: 10px;
+    }
+
+    .logo {
+        top: 10px;
+        left: 10px;
+    }
+
+    .site-title {
+        font-size: 2em;
+    }
 }
